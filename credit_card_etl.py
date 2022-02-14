@@ -9,12 +9,16 @@ from sqlalchemy import create_engine
 
 
 #Extracting the data
-def extract(path):
+#def extract(path):
    #df = pd.read_excel( r'hosts/host_app/app_data.xlsx')
-   df = pd.read_excel(path)
-   return df
+#   df = pd.read_excel(path)
+#   return df
 
-def check_if_valid_data(df: pd.DataFrame) -> bool:
+def extract_validate_load(path) -> bool:
+    #-----Extract----------#
+    df = pd.read_excel(path)
+
+    #-----Validations------#
     #Check if dataframe is empty
     if df.empty:
         print("0 rows read. Finishng execution")
@@ -31,7 +35,7 @@ def check_if_valid_data(df: pd.DataFrame) -> bool:
     if df.isnull().values.any():
         raise Exception("Null values found")
 
-def load(df: pd.DataFrame):
+    #----Load to database ----#
     #engine= sqlalchemy.create_engine(DATABASE_LOCATION)
     engine = create_engine('sqlite:///credit_card.sqlite', echo = True)
     conn = sqlite3.connect('credit_card.sqlite')
@@ -59,6 +63,4 @@ def load(df: pd.DataFrame):
     print("Close databse successfully")
 
 
-df=extract('hosts/host_app/app_data.xlsx')
-check_if_valid_data(df)
-load(df)
+extract_validate_load('hosts/host_app/app_data.xlsx')
