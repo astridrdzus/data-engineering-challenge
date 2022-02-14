@@ -9,8 +9,10 @@ from sqlalchemy import create_engine
 
 
 #Extracting the data
-
-df = pd.read_excel( r'hosts/host_app/app_data.xlsx')
+def extract(path):
+   #df = pd.read_excel( r'hosts/host_app/app_data.xlsx')
+   df = pd.read_excel(path)
+   return df
 
 def check_if_valid_data(df: pd.DataFrame) -> bool:
     #Check if dataframe is empty
@@ -56,5 +58,7 @@ def load(df: pd.DataFrame):
     conn.close()
     print("Close databse successfully")
 
+
+df=extract('hosts/host_app/app_data.xlsx')
 check_if_valid_data(df)
 load(df)
